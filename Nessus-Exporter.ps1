@@ -1,0 +1,39 @@
+
+#.DESCRIPTION
+#   Export a scan from Nessus
+#.EXAMPLE
+#    Export-Nessus -server <IP> -port <port> -scanID <#> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>
+#    Export-Nessus -server 192.168.1.100 -port 8834 -filename prod-scan -format csv -accessKey 1234 -secretKey 5678#
+#
+#
+
+param ([string]$server, [int]$port, [int]$scanId, [string]$filename, [string]$format, [string]$accessKey, [string]$secretKey)
+
+if($param -ne [string]::Empty)
+
+{
+
+	$Url	= "https://${server}:${port}/scans/${scanID}/export"
+	$body 	= @{
+		"format" = "$format" } |ConvertTo-Json
+	$header = @{
+		"X-ApiKeys" = "accessKey=${accessKey}; secretKey=${secretKey}"
+		"Content-Type" = "application/json"
+	}
+
+	[string]$response = Invoke-WebRequest -Uri $Url -Method Post -Headers $header -Body $body
+
+	#Start-Sleep -Seconds 60
+	Get-Variable response
+	$f_id = $response.Split(":{}")
+	$file_id = $f_id[3]
+	Get-Variable file_id
+	$exportURL = "https://${server}:${port}/scans/$scanID/export/$file_id/download"
+	#download file from server
+	Invoke-WebRequest -Uri $exportURL -Method GET -Headers $header -Outfile .\${filename}_$file_id.$format
+
+	}
+
+else {
+	write-host  "Missing Params!  Usage: Export-Nessus -server <IP> -port <port> -scanID <#> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>"
+	}
