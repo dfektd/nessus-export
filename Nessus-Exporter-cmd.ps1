@@ -1,6 +1,7 @@
 
 #.DESCRIPTION
-#   Export a scan from Nessus
+#    Command line based script to export scan results from Nessus for PowerShell Version 5.1
+#   
 #.EXAMPLE
 #    Export-Nessus -server <IP> -port <port> -scanID <#> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>
 #    Export-Nessus -server 192.168.1.100 -port 8834 -filename prod-scan -format csv -accessKey 1234 -secretKey 5678#
