@@ -1,0 +1,9 @@
+<config>
+	<server>server</server>
+	<port>8834</port>
+	<scanId>1234</scanId>
+	<filename>filename</filename>
+	<format>csv/html/nessusdb/nessus</format>
+	<accessKey>insert key here</accessKey>
+	<secretKey>insert key here</secretKey>
+</config>
