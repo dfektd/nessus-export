@@ -24,7 +24,6 @@ $code= @"
 Add-Type -TypeDefinition $code -Language CSharp
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
-#Lets get it on
 
 if( ($server) -and ($scanId) -and ($format) -and ($accessKey) -and ($secretKey) )
 
