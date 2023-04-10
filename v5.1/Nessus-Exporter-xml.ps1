@@ -52,7 +52,7 @@ Get-Variable file_id
 
 #check file is status ready
 $statusURL = "https://${server}:${port}/scans/${scanID}/export/${file_id}/status"
-[string]$status = Invoke-WebRequest -Uri $statusURL -Method Get -Headers $header -verbose
+[string]$status = Invoke-WebRequest -Uri $statusURL -Method Get -Headers $header 
 while ($status -ne '{"status":"ready"}')
 	{
 		[string]$status = Invoke-WebRequest -Uri $statusURL -Method Get -Headers $header 
@@ -61,4 +61,4 @@ while ($status -ne '{"status":"ready"}')
 $exportURL = "https://${server}:${port}/scans/${scanID}/export/${file_id}/download"
 
 #download file from server
-Invoke-WebRequest -Uri $exportURL -Method GET -Headers $header -Outfile .\${filename}_${file_id}.$format -verbose
+Invoke-WebRequest -Uri $exportURL -Method GET -Headers $header -Outfile .\${filename}_${file_id}.$format 
