@@ -47,7 +47,7 @@ if( ($server) -and ($scanId) -and ($format) -and ($accessKey) -and ($secretKey) 
 
     #check file is status ready
     $statusURL = "https://${server}:${port}/scans/${scanID}/export/${file_id}/status"
-    [string]$status = Invoke-WebRequest -Uri $statusURL -Method Get -Headers $header -verbose
+    [string]$status = Invoke-WebRequest -Uri $statusURL -Method Get -Headers $header 
     while ($status -ne '{"status":"ready"}')
 	    {
 		    [string]$status = Invoke-WebRequest -Uri $statusURL -Method Get -Headers $header 
