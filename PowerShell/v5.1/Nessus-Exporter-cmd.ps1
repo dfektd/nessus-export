@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-    Powershell script to export data from Nessus, reads from config.xml
+    Command line based script to export scan results from Nessus for PowerShell Version 5.1
    
 .EXAMPLE
     Export-Nessus -server <IP> -port <port> -scanID <ID> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>
@@ -8,15 +8,8 @@
     Port and Filename are optional.
 #>
 
-#load data from config
-[xml]$Data=Get-Content .\config.xml
-$server = $Data.config.server
-$port = $Data.config.port
-$scanID = $Data.config.scanId
-$filename = $Data.config.filename
-$format = $Data.config.format
-$accessKey = $Data.config.accessKey
-$secretKey = $Data.config.secretKey
+
+param ([string]$server, [int]$port='8834', [int]$scanId, [string]$filename='output', [string]$format, [string]$accessKey, [string]$secretKey)
 
 #ignore ssl errors for 5.1
 $code= @"
@@ -31,7 +24,12 @@ $code= @"
 Add-Type -TypeDefinition $code -Language CSharp
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
-$Url	= "https://${server}:${port}/scans/${scanID}/export"
+
+if( ($server) -and ($scanId) -and ($format) -and ($accessKey) -and ($secretKey) )
+
+{
+
+	$Url	= "https://${server}:${port}/scans/${scanID}/export"
 	$body 	= @{
 		"format" = "$format" } |ConvertTo-Json
 	$header = @{
@@ -49,3 +47,10 @@ $Url	= "https://${server}:${port}/scans/${scanID}/export"
 	$exportURL = "https://${server}:${port}/scans/$scanID/export/$file_id/download"
 	#download file from server
 	Invoke-WebRequest -Uri $exportURL -Method GET -Headers $header -Outfile .\${filename}_$file_id.$format
+
+	}
+
+else {
+	write-host  "Missing Params! `nUsage: Export-Nessus -server <IP> -port <port> -scanID <ID> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>`nPort and filename are optional"
+
+	}
