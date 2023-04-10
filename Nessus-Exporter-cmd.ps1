@@ -1,14 +1,14 @@
-<#
-.DESCRIPTION
-    Command line based script to export scan results from Nessus for PowerShell Version 5.1
-   
-.EXAMPLE
-    Export-Nessus -server <IP> -port <port> -scanID <ID> -filename <filename> -format <csv/pdf/html> -accessKey <key> -secretKey <key>
-    Export-Nessus -server 192.168.1.100 -port 8834 -filename prod-scan -format csv -accessKey 1234 -secretKey 5678
+#.DESclearCRIPTION
+#    Command line based script to export scan results from Nessus for PowerShell Version 5.1
+#   
+#.EXAMPLE
+#    Export-Nessus -server <IP> -port <port> -scanID <#> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>
+#    Export-Nessus -server 192.168.1.100 -port 8834 -filename prod-scan -format csv -accessKey 1234 -secretKey 5678#
+#
+#
+param ([string]$server, [int]$port='8834', [int]$scanId, [string]$filename='output', [string]$format, [string]$accessKey, [string]$secretKey)
 
-#>
-
-#Ignore SSL
+#ignore ssl errors for 5.1
 $code= @"
         using System.Net;
         using System.Security.Cryptography.X509Certificates;
@@ -20,13 +20,10 @@ $code= @"
 "@
 Add-Type -TypeDefinition $code -Language CSharp
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
-Invoke-WebRequest -Uri 'https://trees.com/'
 
-#Start the magic
+#Lets get it on
 
-param ([string]$server, [int]$port, [int]$scanId, [string]$filename, [string]$format, [string]$accessKey, [string]$secretKey)
-
-if($param -ne [string]::Empty)
+if( ($server) -and ($scanId) -and ($format) -and ($accessKey) -and ($secretKey) )
 
 {
 
@@ -52,5 +49,8 @@ if($param -ne [string]::Empty)
 	}
 
 else {
-	write-host  "Missing Params!  Usage: Export-Nessus -server <IP> -port <port> -scanID <ID> -filename <filename> -format <csv/pdf/html> -accessKey <key> -secretKey <key>"
+	write-host  "Missing Params! `nUsage: Export-Nessus -server <IP> -port <port> -scanID <ID> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>`nPort and filename are optional"
+
 	}
+
+
