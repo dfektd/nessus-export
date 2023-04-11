@@ -1,0 +1,11 @@
+<config>
+	<server>localhost</server>
+	<port>8834</port>
+	<scanId>scan id</scanId>
+	<filename>prefix of filename</filename>
+	<format>csv/html/pdf/nessusdb</format>
+	<accessKey>your access key</accessKey>
+	<secretKey>your private key</secretKey>
+	<user>kali</user>
+	<pass>kali</pass>
+</config>
