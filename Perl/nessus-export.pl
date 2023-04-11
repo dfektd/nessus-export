@@ -1,5 +1,12 @@
 #!/usr/local/bin/perl
 #
+# Usage: 
+#	Via XML: perl nessus-export.pl --xml <filename>
+#	Via CLI: perl nessus-export.pl --server <server> --port <port> --scanId <#> --filename <text to prepend> --format <csv/html/pdf/nessusdb> --user <username> --pass <password>
+#
+#
+
+
 use strict;
 use warnings;
 use Net::Nessus::REST;
