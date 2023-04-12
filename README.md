@@ -27,5 +27,5 @@
       
       or
       
-      PowerShell -File .\Export-Nessus -server <IP> -port <port> -scanId <ID> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>
+      PowerShell -File .\Nessus-Exporter-cmd.ps1 -server <IP> -port <port> -scanId <ID> -filename <filename> -format <csv/pdf/html> -accessKey <> -secretKey <>
       
